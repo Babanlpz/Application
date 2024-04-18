@@ -1,10 +1,11 @@
-import "./App.css";
-import { useEffect, useState } from "react";
 import { collection, onSnapshot } from "firebase/firestore";
+import { useEffect, useState } from "react";
+import { CiCirclePlus, CiSearch } from "react-icons/ci";
+import "./App.css";
 import Logo from "./assets/logo.png";
+import Card from "./components/Card";
+import Not from "./components/Not";
 import { db } from "./config/firebase";
-import { CiSearch } from "react-icons/ci";
-import { CiCirclePlus } from "react-icons/ci";
 
 function App() {
   const [contact, setContact] = useState([]);
@@ -47,6 +48,15 @@ function App() {
             <CiSearch className="text-3xl text-gray-500 cursor-pointer" />
           </div>
           <CiCirclePlus className="text-3xl text-gray-500 cursor-pointer" />
+        </div>
+        <div>
+          {contact.length <= 0 ? (
+            <Not />
+          ) : (
+            contact.map((contact) => {
+              return <Card key={contact.id} contact={contact} />;
+            })
+          )}
         </div>
       </div>
     </>
