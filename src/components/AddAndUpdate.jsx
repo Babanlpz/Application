@@ -112,7 +112,9 @@ const AddAndUpdate = ({ openModal, onClose, contact, isUpdate }) => {
               <button
                 type="submit"
                 className="bg-teal-500 px-3 py-1.5 text-white my-3 self-end"
-              ></button>
+              >
+                {isUpdate ? "Modifier le" : "Ajouter un"}contact
+              </button>
             </Form>
           </Formik>
         </Modal>
