@@ -1,14 +1,18 @@
 import { collection, onSnapshot } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { CiCirclePlus, CiSearch } from "react-icons/ci";
+import { ToastContainer } from "react-toastify";
 import "./App.css";
 import Logo from "./assets/logo.png";
+import AddAndUpdate from "./components/AddAndUpdate";
 import Card from "./components/Card";
 import Not from "./components/Not";
 import { db } from "./config/firebase";
+import useModal from "./hook/useModal";
 
 function App() {
   const [contact, setContact] = useState([]);
+  const { openModal, onOpen, onClose } = useModal();
 
   useEffect(() => {
     const getContacts = async () => {
@@ -67,7 +71,10 @@ function App() {
           <div className="absolute ml-2">
             <CiSearch className="text-3xl text-gray-500 cursor-pointer" />
           </div>
-          <CiCirclePlus className="text-3xl text-gray-500 cursor-pointer" />
+          <CiCirclePlus
+            onClick={onOpen}
+            className="text-3xl text-gray-500 cursor-pointer"
+          />
         </div>
         <div>
           {contact.length <= 0 ? (
@@ -78,6 +85,8 @@ function App() {
             })
           )}
         </div>
+        <ToastContainer position="bottom-center" />
+        <AddAndUpdate openModal={openModal} onClose={onClose} />
       </div>
     </>
   );
