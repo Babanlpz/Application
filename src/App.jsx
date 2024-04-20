@@ -31,7 +31,26 @@ function App() {
     getContacts();
   }, []);
 
-  console.log(contact);
+  const filterContacts = (e) => {
+    const value = e.target.value;
+
+    const contactsRef = collection(db, "contact");
+
+    onSnapshot(contactsRef, (snapshot) => {
+      const contactList = snapshot.docs.map((doc) => {
+        return {
+          id: doc.id,
+          ...doc.data(),
+        };
+      });
+
+      const filteredContacts = contactList.filter((contact) => {
+        return contact.name.toLowerCase().includes(value.toLowerCase());
+      });
+
+      setContact(filteredContacts);
+    });
+  };
 
   return (
     <>
@@ -41,6 +60,7 @@ function App() {
         </div>
         <div className="p-4 relative flex items-center flex-grow gap-4">
           <input
+            onChange={filterContacts}
             type="text"
             className="h-10 flex-grow rounded-md bg-transparent border border-dark py-2 pl-10 text-gray-500"
           />

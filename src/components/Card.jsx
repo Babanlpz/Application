@@ -1,9 +1,8 @@
-import { CiEdit } from "react-icons/ci";
-import { CiTrash } from "react-icons/ci";
-import { db } from "../../config/firebase";
 import { deleteDoc, doc } from "firebase/firestore";
+import { CiEdit, CiTrash } from "react-icons/ci";
+import { db } from "../config/firebase";
 
-export default function Card(contact) {
+export default function Card({ contact }) {
   const deleteContact = async (id) => {
     try {
       await deleteDoc(doc(db, "contact", id));
@@ -34,6 +33,13 @@ export default function Card(contact) {
           <span className="text-white">{contact.phone}</span>
         </li>
       </ul>
+      <div className="flex items-center gap-5 p-4">
+        <CiEdit className="text-white bg-yellow-500 cursor-pointer p-1 rounded text-3xl" />
+        <CiTrash
+          className="text-white bg-red-500 cursor-pointer p-1 rounded text-3xl"
+          onClick={() => deleteContact(contact.id)}
+        />
+      </div>
     </div>
   );
 }
